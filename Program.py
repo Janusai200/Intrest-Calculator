@@ -43,15 +43,15 @@ def cal_Days(asd1,asd2):
         a=(asd1[0],years,months,days);
         return a;
 #For calculating the Amount to be paid
-def cal_Amount(asd1):
+def cal_Amount(asd1,rate=24):
     a_tot=0;
     for i in asd1:
         pr=a_tot+i[0];
         print(pr);
         print(i[1]);
-        tot_y= pr *(1.24 ** (i[1]));
+        tot_y= pr *((1+rate/100) ** (i[1]));
         print(tot_y);
-        ip = tot_y * (i[2] + (i[3] / 30)) * 0.02;
+        ip = (tot_y * (i[2] + (i[3] / 30)) * rate)/1200;
         print(ip)
         a_tot =tot_y+ip;
         print(a_tot);
@@ -63,8 +63,9 @@ def convertdate(a):
     b.insert(0,0);
     return b;
 
+
 a=input("Enter the Name You want to search:");
-d=input("Enter todays date (dd/mm/yyyy) format Note: Enter the Year Completely");
+d=input("Enter todays date (dd/mm/yyyy) format Note: Enter the Year Completely:");
 b={};
 c={};
 e=[];
@@ -107,7 +108,12 @@ print(c);
 for i in range(1,len(c)):
     e.append(cal_Days(asd1=c[i],asd2=c[i+1]));
 print(e);
-cal_Amount(e);
+o=input("Are Intrested to go with default rate(that is 24%) ?. Type Y for Yes or Press Enter for No");
+if o not in ["Y", "y", "yes", "YES", "Yes"]:
+    num1 = float(input("Enter Intrest rate per year : "))
+    cal_Amount(e,num1);
+else:
+    cal_Amount(e);
 
 
 
